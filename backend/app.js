@@ -1,14 +1,16 @@
-const authRoutes = require("./routes/authRoutes");
-
-app.use("/api/auth", authRoutes);
 const express = require("express");
 const cors = require("cors");
 
-const app = express();
+const authRoutes = require("./routes/authRoutes");
+
+const app = express(); // ✅ app is created FIRST
 
 // middlewares
 app.use(cors());
 app.use(express.json());
+
+// routes
+app.use("/api/auth", authRoutes);
 
 // test route
 app.get("/", (req, res) => {
