@@ -7,29 +7,31 @@
 </head>
 <body>
 
-<div class="auth-container">
-  <h1>Academic Exchange</h1>
-  <p class="subtitle">Login or create an account</p>
+<div class="auth-wrapper">
+  <div class="auth-container">
+    <h1>Academic Exchange</h1>
+    <p class="subtitle">Login or create an account</p>
 
-  <!-- LOGIN FORM -->
-  <div id="loginForm" class="form-card">
-    <input type="text" id="loginEmail" placeholder="Email">
-    <input type="password" id="loginPassword" placeholder="Password">
-    <button class="primary-btn" onclick="login()">Login</button>
-  </div>
+    <!-- LOGIN FORM -->
+    <div id="loginForm" class="form-card">
+      <input type="text" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button class="primary-btn" onclick="login()">Login</button>
+    </div>
 
-  <!-- REGISTER FORM -->
-  <div id="registerForm" class="form-card hidden">
-    <input type="text" id="regName" placeholder="Full Name">
-    <input type="text" id="regEmail" placeholder="Email">
-    <input type="password" id="regPassword" placeholder="Password">
-    <button class="primary-btn" onclick="register()">Create Account</button>
-  </div>
+    <!-- REGISTER FORM -->
+    <div id="registerForm" class="form-card hidden">
+      <input type="text" id="regName" placeholder="Full Name">
+      <input type="text" id="regEmail" placeholder="Email">
+      <input type="password" id="regPassword" placeholder="Password">
+      <button class="primary-btn" onclick="register()">Create Account</button>
+    </div>
 
-  <!-- SWITCH BAR -->
-  <div class="switch-bar">
-    <button id="loginTab" class="tab active" onclick="showLogin()">Login</button>
-    <button id="registerTab" class="tab" onclick="showRegister()">Create Account</button>
+    <!-- SWITCH BAR -->
+    <div class="switch-bar">
+      <button id="loginTab" class="tab active" onclick="showLogin()">Login</button>
+      <button id="registerTab" class="tab" onclick="showRegister()">Create Account</button>
+    </div>
   </div>
 </div>
 
