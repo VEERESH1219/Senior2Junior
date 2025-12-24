@@ -1,6 +1,4 @@
-/* =========================
-   RESET
-========================= */
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
@@ -8,9 +6,83 @@
   font-family: Arial, sans-serif;
 }
 
-/* =========================
-   NAVBAR
-========================= */
+/* ================= AUTH PAGE ================= */
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2874f0, #1c5fd4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-container {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.auth-container h1 {
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* TOGGLE BUTTONS */
+.auth-toggle {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.auth-toggle button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  background: #eee;
+  font-weight: bold;
+}
+
+.auth-toggle button.active {
+  background: #2874f0;
+  color: white;
+}
+
+/* FORMS */
+.auth-card {
+  text-align: left;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 10px;
+  background: #2874f0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ================= NAVBAR (OTHER PAGES) ================= */
 .navbar {
   background: #2874f0;
   color: white;
@@ -32,55 +104,33 @@
   font-size: 14px;
 }
 
-/* =========================
-   PAGE
-========================= */
+/* ================= PRODUCT GRID ================= */
 .page {
   padding: 20px;
   max-width: 1200px;
   margin: auto;
 }
 
-.section-title {
-  margin-bottom: 14px;
-  font-size: 18px;
-}
-
-/* =========================
-   PRODUCT GRID (DENSE)
-========================= */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 14px;
 }
 
-/* =========================
-   PRODUCT CARD
-========================= */
 .product-card {
   background: white;
   border-radius: 6px;
   box-shadow: 0 1px 5px rgba(0,0,0,0.15);
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.15s;
 }
 
-.product-card:hover {
-  transform: translateY(-4px);
-}
-
-/* IMAGE SMALLER */
 .product-card img {
   width: 100%;
-  height: 150px;          /* 👈 reduced */
+  height: 150px;
   object-fit: cover;
 }
 
-/* =========================
-   CARD BODY
-========================= */
 .product-info {
   padding: 8px;
 }
@@ -88,126 +138,17 @@
 .product-title {
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 4px;
 }
 
 .product-price {
   color: #388e3c;
-  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 4px;
 }
 
-/* =========================
-   BADGE
-========================= */
 .badge {
-  display: inline-block;
   background: orange;
   color: white;
   font-size: 11px;
   padding: 2px 6px;
   border-radius: 4px;
-}
-
-/* =========================
-   AUTH PAGE (LOGIN / ADMIN)
-========================= */
-.auth-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #2874f0, #1c5fd4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.auth-container {
-  background: white;
-  width: 100%;
-  max-width: 420px;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  text-align: center;
-}
-
-.auth-card {
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-.auth-card input {
-  width: 100%;
-  padding: 9px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.auth-card button {
-  width: 100%;
-  padding: 9px;
-  background: #2874f0;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* =========================
-   MOBILE
-========================= */
-@media (max-width: 768px) {
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
-
-  .product-card img {
-    height: 130px;
-  }
-
-  .navbar {
-    flex-direction: column;
-    gap: 8px;
-  }
-}
-
-.filters-section {
-  display: flex; gap: 15px; margin: 20px 0; 
-  flex-wrap: wrap; padding: 20px; 
-  background: #f8f9fa; border-radius: 10px;
-}
-
-.filter-group { display: flex; flex-direction: column; gap: 5px; }
-.filter-group label { font-weight: 600; color: #333; }
-.filter-group select, .filter-group input { 
-  padding: 8px; border: 1px solid #ddd; border-radius: 5px; 
-}
-
-.filter-btn, .clear-btn { 
-  padding: 10px 20px; border: none; border-radius: 5px; 
-  cursor: pointer; font-weight: 600;
-}
-.filter-btn { background: #007bff; color: white; }
-.clear-btn { background: #6c757d; color: white; }
-.filter-btn,
-.clear-btn {
-  padding: 8px 16px;          /* 10 20 nundi taggincham */
-  border-radius: 6px;
-  font-size: 14px;            /* 16 → 14 */
-  min-width: 120px;           /* width ekkuva kakunda control */
-  height: 38px;               /* fixed small height */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.filter-btn {
-  background: #007bff;
-  color: #fff;
-}
-
-.clear-btn {
-  background: #6c757d;
-  color: #fff;
 }

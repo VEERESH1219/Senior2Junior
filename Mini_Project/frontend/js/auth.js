@@ -1,5 +1,21 @@
 const API_URL = "http://localhost:5000";
 
+// TOGGLE UI
+function showLogin() {
+  loginForm.classList.remove("hidden");
+  registerForm.classList.add("hidden");
+  btnLogin.classList.add("active");
+  btnRegister.classList.remove("active");
+}
+
+function showRegister() {
+  registerForm.classList.remove("hidden");
+  loginForm.classList.add("hidden");
+  btnRegister.classList.add("active");
+  btnLogin.classList.remove("active");
+}
+
+// REGISTER
 function register() {
   fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
@@ -10,16 +26,11 @@ function register() {
       password: rpassword.value
     })
   })
-    .then(res => res.json())
-    .then(data => {
-      alert(data.message);
-    })
-    .catch(err => {
-      alert("Registration error");
-      console.error(err);
-    });
+    .then(r => r.json())
+    .then(d => alert(d.message));
 }
 
+// LOGIN
 function login() {
   fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
@@ -29,18 +40,13 @@ function login() {
       password: password.value
     })
   })
-    .then(res => res.json())
-    .then(data => {
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        alert("Login successful");
+    .then(r => r.json())
+    .then(d => {
+      if (d.token) {
+        localStorage.setItem("token", d.token);
         window.location.href = "index.html";
       } else {
-        alert(data.message || "Login failed");
+        alert(d.message || "Login failed");
       }
-    })
-    .catch(err => {
-      alert("Login error");
-      console.error(err);
     });
 }
