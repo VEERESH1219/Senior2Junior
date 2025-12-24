@@ -8,7 +8,7 @@
 <body>
 
 <script>
-  // If user not logged in, redirect to login page
+  // Redirect to login if user not logged in
   const token = localStorage.getItem("token");
   if (!token) {
     window.location.href = "login.html";
@@ -19,7 +19,7 @@
   <div class="logo">Academic Exchange</div>
   <div class="nav-actions">
     <a href="login.html">User Login</a>
-    <a href="#">Admin Login</a>
+    <a href="admin-login.html">Admin Login</a>
   </div>
 </header>
 
@@ -35,7 +35,14 @@
 
     <div class="filter-group">
       <label>Max Price: <span id="priceValue">₹1000</span></label>
-      <input type="range" id="priceSlider" min="0" max="2000" value="1000">
+      <input
+        type="range"
+        id="priceSlider"
+        min="0"
+        max="2000"
+        value="1000"
+        oninput="priceValue.innerText = '₹' + this.value"
+      >
     </div>
 
     <button onclick="applyFilters()" class="filter-btn">🔍 Filter Books</button>
