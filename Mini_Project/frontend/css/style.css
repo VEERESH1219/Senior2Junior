@@ -190,3 +190,24 @@
 }
 .filter-btn { background: #007bff; color: white; }
 .clear-btn { background: #6c757d; color: white; }
+.filter-btn,
+.clear-btn {
+  padding: 8px 16px;          /* 10 20 nundi taggincham */
+  border-radius: 6px;
+  font-size: 14px;            /* 16 → 14 */
+  min-width: 120px;           /* width ekkuva kakunda control */
+  height: 38px;               /* fixed small height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-btn {
+  background: #007bff;
+  color: #fff;
+}
+
+.clear-btn {
+  background: #6c757d;
+  color: #fff;
+}
