@@ -171,3 +171,43 @@
     gap: 8px;
   }
 }
+
+.filters-section {
+  display: flex; gap: 15px; margin: 20px 0; 
+  flex-wrap: wrap; padding: 20px; 
+  background: #f8f9fa; border-radius: 10px;
+}
+
+.filter-group { display: flex; flex-direction: column; gap: 5px; }
+.filter-group label { font-weight: 600; color: #333; }
+.filter-group select, .filter-group input { 
+  padding: 8px; border: 1px solid #ddd; border-radius: 5px; 
+}
+
+.filter-btn, .clear-btn { 
+  padding: 10px 20px; border: none; border-radius: 5px; 
+  cursor: pointer; font-weight: 600;
+}
+.filter-btn { background: #007bff; color: white; }
+.clear-btn { background: #6c757d; color: white; }
+.filter-btn,
+.clear-btn {
+  padding: 8px 16px;          /* 10 20 nundi taggincham */
+  border-radius: 6px;
+  font-size: 14px;            /* 16 → 14 */
+  min-width: 120px;           /* width ekkuva kakunda control */
+  height: 38px;               /* fixed small height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-btn {
+  background: #007bff;
+  color: #fff;
+}
+
+.clear-btn {
+  background: #6c757d;
+  color: #fff;
+}
