@@ -2,38 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Academic Exchange | Auth</title>
+  <title>Academic Exchange - Login</title>
   <link rel="stylesheet" href="./css/style.css">
 </head>
-<body class="auth-page">
+<body>
 
-  <div class="auth-container">
+<div class="auth-container">
+  <h1>Academic Exchange</h1>
+  <p class="subtitle">Login or create an account</p>
 
-    <h1>Academic Exchange</h1>
-    <p class="subtitle">Login or create an account</p>
-
-    <!-- TOGGLE BUTTONS -->
-    <div class="auth-toggle">
-      <button id="btnLogin" class="active" onclick="showLogin()">Login</button>
-      <button id="btnRegister" onclick="showRegister()">Create Account</button>
-    </div>
-
-    <!-- LOGIN FORM -->
-    <div id="loginForm" class="auth-card">
-      <input id="email" placeholder="Email">
-      <input id="password" type="password" placeholder="Password">
-      <button onclick="login()">Login</button>
-    </div>
-
-    <!-- REGISTER FORM -->
-    <div id="registerForm" class="auth-card hidden">
-      <input id="rname" placeholder="Full Name">
-      <input id="remail" placeholder="Email">
-      <input id="rpassword" type="password" placeholder="Password">
-      <button onclick="register()">Create Account</button>
-    </div>
-
+  <!-- LOGIN FORM -->
+  <div id="loginForm" class="form-card">
+    <input type="text" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button class="primary-btn" onclick="login()">Login</button>
   </div>
+
+  <!-- REGISTER FORM -->
+  <div id="registerForm" class="form-card hidden">
+    <input type="text" id="regName" placeholder="Full Name">
+    <input type="text" id="regEmail" placeholder="Email">
+    <input type="password" id="regPassword" placeholder="Password">
+    <button class="primary-btn" onclick="register()">Create Account</button>
+  </div>
+
+  <!-- SWITCH BAR -->
+  <div class="switch-bar">
+    <button id="loginTab" class="tab active" onclick="showLogin()">Login</button>
+    <button id="registerTab" class="tab" onclick="showRegister()">Create Account</button>
+  </div>
+</div>
 
 <script src="./js/auth.js"></script>
 </body>
