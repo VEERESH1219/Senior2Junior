@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Details</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="top-nav">
+  <h2>Academic Exchange</h2>
+</header>
+
+<main class="container">
+
+  <div class="detail-card">
+
+    <!-- IMAGE SLIDER -->
+    <div class="slider">
+      <button class="nav-btn left" onclick="prevImage()">‹</button>
+      <img id="sliderImage">
+      <button class="nav-btn right" onclick="nextImage()">›</button>
+
+      <!-- THUMBNAILS -->
+      <div id="thumbnails" class="thumbnails"></div>
+    </div>
+
+    <!-- PRODUCT INFO -->
+    <div class="detail-info">
+      <h2 id="title"></h2>
+      <p id="description"></p>
+      <h3 id="price"></h3>
+      <span id="typeBadge" class="badge"></span>
+
+      <button onclick="checkout()">Buy / Rent</button>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="js/product.js"></script>
+</body>
+</html>
