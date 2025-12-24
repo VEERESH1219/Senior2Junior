@@ -7,48 +7,69 @@ const productId = params.get("id");
 let images = [];
 let currentIndex = 0;
 
-// FETCH PRODUCT
+// DEMO DATA (fallback)
+const demoProducts = [
+  {
+    id: 1,
+    title: "DBMS – Concepts & Practice",
+    description: "Comprehensive database management system book.",
+    price: 300,
+    type: "sell",
+    images: [
+      "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
+      "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794"
+    ]
+  }
+];
+
+// LOAD PRODUCT
 fetch(`${API_URL}/api/listings`)
   .then(res => res.json())
   .then(data => {
-    const product = data.find(p => p.id == productId);
+    let product = data.find(p => p.id == productId);
 
-    images = JSON.parse(product.images);
-    sliderImage.src = API_URL + images[0];
+    if (!product) {
+      product = demoProducts[0];
+      images = product.images;
+    } else {
+      images = JSON.parse(product.images).map(img => `${API_URL}${img}`);
+    }
 
     title.innerText = product.title;
-    description.innerText = product.description || "";
+    description.innerText = product.description || "No description provided";
     price.innerText = `₹${product.price}`;
-    typeBadge.innerText = product.type.toUpperCase();
+    type.innerText = product.type.toUpperCase();
 
+    mainImage.src = images[0];
     renderThumbnails();
   });
 
-// SLIDER CONTROLS
+// IMAGE CONTROLS
 function nextImage() {
   currentIndex = (currentIndex + 1) % images.length;
-  sliderImage.src = API_URL + images[currentIndex];
+  mainImage.src = images[currentIndex];
   highlightThumb();
 }
 
 function prevImage() {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
-  sliderImage.src = API_URL + images[currentIndex];
+  mainImage.src = images[currentIndex];
   highlightThumb();
 }
 
 // THUMBNAILS
 function renderThumbnails() {
   thumbnails.innerHTML = "";
-  images.forEach((img, index) => {
-    const thumb = document.createElement("img");
-    thumb.src = API_URL + img;
-    thumb.onclick = () => {
-      currentIndex = index;
-      sliderImage.src = API_URL + images[currentIndex];
+  images.forEach((img, i) => {
+    const t = document.createElement("img");
+    t.src = img;
+    t.onclick = () => {
+      currentIndex = i;
+      mainImage.src = images[i];
       highlightThumb();
     };
-    thumbnails.appendChild(thumb);
+    thumbnails.appendChild(t);
   });
   highlightThumb();
 }
@@ -59,25 +80,13 @@ function highlightThumb() {
   });
 }
 
-// SWIPE SUPPORT
-let startX = 0;
-
-sliderImage.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-});
-
-sliderImage.addEventListener("touchend", e => {
-  const endX = e.changedTouches[0].clientX;
-  if (startX - endX > 50) nextImage();
-  if (endX - startX > 50) prevImage();
-});
-
-// CHECKOUT
-function checkout() {
+// BUY / RENT
+function buyOrRent() {
   if (!token) {
     alert("Please login to buy or rent this item");
+    window.location.href = "login.html";
     return;
   }
 
-  alert("Checkout successful! (Demo flow)");
+  alert("Proceeding to checkout (next step)");
 }
