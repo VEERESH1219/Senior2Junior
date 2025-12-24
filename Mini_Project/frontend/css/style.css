@@ -105,10 +105,10 @@
 }
 
 /* ================= PRODUCT GRID ================= */
-.page {
-  padding: 20px;
+.product-page {
   max-width: 1200px;
-  margin: auto;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
 .product-grid {
@@ -152,3 +152,127 @@
   padding: 2px 6px;
   border-radius: 4px;
 }
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.primary-btn {
+  background: #007bff;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.wa-btn {
+  background: #25d366;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.filters-section {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.filter-btn,
+.clear-btn {
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 110px;
+  height: 34px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.filter-btn {
+  background: #007bff;
+  color: #fff;
+}
+
+.clear-btn {
+  background: #6c757d;
+  color: #fff;
+}
+/* ============== PRODUCT DETAIL PAGE ============= */
+.detail-card {
+  width: 100%;                /* full width */
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
+  gap: 24px;
+}
+
+
+.slider img#mainImage {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.thumbnails {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.thumbnails img {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.thumbnails img.active {
+  border: 2px solid #2874f0;
+  opacity: 1;
+}
+
+.detail-info h2 {
+  margin-bottom: 10px;
+}
+
+.detail-info p {
+  margin-bottom: 10px;
+  color: #555;
+}
+body {
+  background: #f2f3f7;
+}
+
+.detail-info h2 { font-size: 22px; }
+.detail-info p  { font-size: 15px; }
+.product-title  { font-size: 16px; }
