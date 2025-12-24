@@ -1,21 +1,19 @@
 const db = require("../config/db");
 
 const User = {
+  // CREATE USER
   create: (user, callback) => {
-    const sql =
-      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-
-    db.run(sql, [user.name, user.email, user.password], function (err) {
-      callback(err, this?.lastID);
-    });
+    const sql = `
+      INSERT INTO users (name, email, password)
+      VALUES (?, ?, ?)
+    `;
+    db.run(sql, [user.name, user.email, user.password], callback);
   },
 
+  // FIND USER BY EMAIL (SINGLE USER)
   findByEmail: (email, callback) => {
-    const sql = "SELECT * FROM users WHERE email = ?";
-
-    db.get(sql, [email], (err, row) => {
-      callback(err, row);
-    });
+    const sql = `SELECT * FROM users WHERE email = ?`;
+    db.get(sql, [email], callback); // 👈 IMPORTANT FIX
   }
 };
 

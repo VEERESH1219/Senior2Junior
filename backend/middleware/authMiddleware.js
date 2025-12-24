@@ -1,8 +1,18 @@
-const express = require("express");
-const router = express.Router();
-const authController = require("../controllers/authController");
+const jwt = require("jsonwebtoken");
 
-router.post("/register", authController.register);
-router.post("/login", authController.login);
+module.exports = (req, res, next) => {
+  const token = req.header("Authorization");
 
-module.exports = router;
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    req.user.isAdmin = decoded.email === "admin@admin.com";
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+};

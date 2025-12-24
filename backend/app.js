@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 // import routes
 const authRoutes = require("./routes/authRoutes");
@@ -12,7 +13,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// routes (AFTER app is created)
+// serve uploaded images
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
+
+// routes
 app.use("/api/auth", authRoutes);
 app.use("/api/listings", listingRoutes);
 
