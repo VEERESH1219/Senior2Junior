@@ -85,3 +85,27 @@ fetch(`${API_URL}/api/listings`)
 function openProduct(id) {
   window.location.href = `product.html?id=${id}`;
 }
+
+
+// 🔥 FILTERS LOGIC (app.js last lo paste)
+document.getElementById('priceSlider').addEventListener('input', function() {
+  document.getElementById('priceValue').textContent = `₹${this.value}`;
+});
+
+function applyFilters() {
+  const semester = document.getElementById('semesterFilter').value;
+  const priceMax = document.getElementById('priceSlider').value;
+  
+  const filtered = allProducts.filter(p => {
+    return (!semester || p.semester == semester) && p.price <= priceMax;
+  });
+  
+  renderProducts(filtered, true);
+}
+
+function clearFilters() {
+  document.getElementById('semesterFilter').value = '';
+  document.getElementById('priceSlider').value = 2000;
+  document.getElementById('priceValue').textContent = '₹2000';
+  renderProducts(allProducts, true);
+}
