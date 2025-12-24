@@ -90,3 +90,10 @@ function buyOrRent() {
 
   alert("Proceeding to checkout (next step)");
 }
+
+function shareOnWhatsApp() {
+  const pageUrl = window.location.href;
+  const msg = `Check this book: ${title.innerText} - ${price.innerText} on Academic Exchange: ${pageUrl}`;
+  const waUrl = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(waUrl, "_blank");
+}
