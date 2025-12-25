@@ -2,36 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Academic Exchange - Login</title>
-  <link rel="stylesheet" href="./css/login.css">
+  <title>Login | Academic Exchange</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
 <div class="auth-wrapper">
   <div class="auth-container">
     <h1>Academic Exchange</h1>
-    <p class="subtitle">Login or create an account</p>
+    <p class="subtitle">Login to continue</p>
 
-    <!-- LOGIN FORM -->
-    <div id="loginForm" class="form-card">
-      <input type="text" id="loginEmail" placeholder="Email">
-      <input type="password" id="loginPassword" placeholder="Password">
+    <div class="form-card">
+      <input id="loginEmail" placeholder="Email">
+      <input id="loginPassword" type="password" placeholder="Password">
       <button class="primary-btn" onclick="login()">Login</button>
     </div>
 
-    <!-- REGISTER FORM -->
-    <div id="registerForm" class="form-card hidden">
-      <input type="text" id="regName" placeholder="Full Name">
-      <input type="text" id="regEmail" placeholder="Email">
-      <input type="password" id="regPassword" placeholder="Password">
-      <button class="primary-btn" onclick="register()">Create Account</button>
-    </div>
-
-    <!-- SWITCH BAR -->
-    <div class="switch-bar">
-      <button id="loginTab" class="tab active" onclick="showLogin()">Login</button>
-      <button id="registerTab" class="tab" onclick="showRegister()">Create Account</button>
-    </div>
+    <p class="switch-text">
+      New user? <a href="register.html">Create Account</a>
+    </p>
   </div>
 </div>
 
