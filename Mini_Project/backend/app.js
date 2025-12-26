@@ -5,6 +5,7 @@ const path = require("path");
 // import routes
 const authRoutes = require("./routes/authRoutes");
 const listingRoutes = require("./routes/listingRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 // create app FIRST
 const app = express();
@@ -22,6 +23,7 @@ app.use(
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/listings", listingRoutes);
+app.use("/api/chat", chatRoutes);
 
 // test route
 app.get("/", (req, res) => {
