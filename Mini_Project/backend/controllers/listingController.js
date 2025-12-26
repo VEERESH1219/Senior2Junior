@@ -1,10 +1,15 @@
 const Listing = require("../models/Listing");
 
+/* =================================================
+   ADD LISTING (WITH LOCATION)
+================================================= */
 exports.addListing = (req, res) => {
-  const { title, description, price, type } = req.body;
+  const { title, description, price, type, latitude, longitude } = req.body;
 
   if (!title || !price || !type) {
-    return res.status(400).json({ message: "Missing required fields" });
+    return res.status(400).json({
+      message: "Missing required fields"
+    });
   }
 
   if (!req.files || req.files.length !== 3) {
@@ -19,10 +24,12 @@ exports.addListing = (req, res) => {
     {
       user_id: req.user.id,
       title,
-      description,
+      description: description || "",
       price,
       type,
-      images: JSON.stringify(images)
+      images: JSON.stringify(images),
+      latitude: latitude || null,
+      longitude: longitude || null
     },
     err => {
       if (err) {
@@ -37,11 +44,35 @@ exports.addListing = (req, res) => {
   );
 };
 
+/* =================================================
+   GET LISTINGS (WITH 5KM RADIUS SUPPORT)
+================================================= */
 exports.getAllListings = (req, res) => {
-  Listing.getAll((err, rows) => {
-    if (err) {
-      return res.status(500).json({ message: "Failed to fetch listings" });
-    }
-    res.json(rows);
-  });
+  const { lat, lng, radius } = req.query;
+
+  if (lat && lng && radius) {
+    Listing.getNearBy(
+      Number(lat),
+      Number(lng),
+      Number(radius),
+      (err, rows) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({
+            message: "Failed to fetch nearby listings"
+          });
+        }
+        res.json(rows);
+      }
+    );
+  } else {
+    Listing.getAll((err, rows) => {
+      if (err) {
+        return res.status(500).json({
+          message: "Failed to fetch listings"
+        });
+      }
+      res.json(rows);
+    });
+  }
 };
