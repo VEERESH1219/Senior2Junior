@@ -1,99 +1,48 @@
-const API_URL = "http://localhost:5000";
-const token = localStorage.getItem("token");
-
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
 
-let images = [];
-let currentIndex = 0;
+let product = null;
 
-// DEMO DATA (fallback)
-const demoProducts = [
-  {
-    id: 1,
-    title: "DBMS – Concepts & Practice",
-    description: "Comprehensive database management system book.",
-    price: 300,
-    type: "sell",
-    images: [
-      "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-      "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
-      "https://images.unsplash.com/photo-1512820790803-83ca734da794"
-    ]
-  }
-];
-
-// LOAD PRODUCT
-fetch(`${API_URL}/api/listings`)
-  .then(res => res.json())
+fetch(`http://localhost:5000/api/listings/${productId}`)
+  .then(r => r.json())
   .then(data => {
-    let product = data.find(p => p.id == productId);
-
-    if (!product) {
-      product = demoProducts[0];
-      images = product.images;
-    } else {
-      images = JSON.parse(product.images).map(img => `${API_URL}${img}`);
-    }
-
-    title.innerText = product.title;
-    description.innerText = product.description || "No description provided";
-    price.innerText = `₹${product.price}`;
-    type.innerText = product.type.toUpperCase();
-
-    mainImage.src = images[0];
-    renderThumbnails();
+    product = data;
+    loadProduct();
+    initMap();
   });
 
-// IMAGE CONTROLS
-function nextImage() {
-  currentIndex = (currentIndex + 1) % images.length;
-  mainImage.src = images[currentIndex];
-  highlightThumb();
+function loadProduct() {
+  document.getElementById("title").textContent = product.title;
+  document.getElementById("description").textContent = product.description;
+  document.getElementById("price").textContent = `₹${product.price}`;
+  document.getElementById("type").textContent = product.type;
+
+  document.getElementById("mainImage").src =
+    `http://localhost:5000${JSON.parse(product.images)[0]}`;
 }
 
-function prevImage() {
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
-  mainImage.src = images[currentIndex];
-  highlightThumb();
+function openChat() {
+  window.location.href =
+    `chat.html?listingId=${product.id}&sellerId=${product.user_id}`;
 }
 
-// THUMBNAILS
-function renderThumbnails() {
-  thumbnails.innerHTML = "";
-  images.forEach((img, i) => {
-    const t = document.createElement("img");
-    t.src = img;
-    t.onclick = () => {
-      currentIndex = i;
-      mainImage.src = images[i];
-      highlightThumb();
-    };
-    thumbnails.appendChild(t);
+/* GOOGLE MAP – 5KM */
+function initMap() {
+  const loc = { lat: product.latitude, lng: product.longitude };
+
+  const map = new google.maps.Map(document.getElementById("map"), {
+    center: loc,
+    zoom: 13
   });
-  highlightThumb();
-}
 
-function highlightThumb() {
-  [...thumbnails.children].forEach((img, i) => {
-    img.classList.toggle("active", i === currentIndex);
+  new google.maps.Marker({ position: loc, map });
+
+  new google.maps.Circle({
+    map,
+    center: loc,
+    radius: 5000,
+    fillColor: "#2874f0",
+    fillOpacity: 0.15,
+    strokeOpacity: 0.4
   });
-}
-
-// BUY / RENT
-function buyOrRent() {
-  if (!token) {
-    alert("Please login to buy or rent this item");
-    window.location.href = "login.html";
-    return;
-  }
-
-  alert("Proceeding to checkout (next step)");
-}
-
-function shareOnWhatsApp() {
-  const pageUrl = window.location.href;
-  const msg = `Check this book: ${title.innerText} - ${price.innerText} on Academic Exchange: ${pageUrl}`;
-  const waUrl = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-  window.open(waUrl, "_blank");
 }
