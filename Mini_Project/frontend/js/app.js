@@ -1,7 +1,10 @@
 const API_URL = "http://localhost:5000";
 let allProducts = [];
-// DEMO PRODUCTS WITH ONLINE IMAGE LINKS
+let userLocation = null;
 
+/* =================================================
+   DEMO PRODUCTS (fallback only)
+================================================= */
 const demoProducts = [
   {
     id: 1,
@@ -24,32 +27,65 @@ const demoProducts = [
     title: "Computer Networks",
     price: 280,
     type: "sell",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
+    fromBackend: false
   },
   {
     id: 4,
     title: "Data Structures",
     price: 200,
     type: "rent",
-    image: "https://images.unsplash.com/photo-1513258496099-48168024aec0"
+    image: "https://images.unsplash.com/photo-1513258496099-48168024aec0",
+    fromBackend: false
   },
   {
     id: 5,
     title: "Java Programming",
     price: 350,
     type: "sell",
-    image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159"
+    image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159",
+    fromBackend: false
+  },
+  {
+    id: 6,
+    title: "Engineering Graph Sheet Set",
+    price: 120,
+    type: "sell",
+    image: "https://i.imgur.com/0kXQJZp.png",
+    fromBackend: false
+  },
+  {
+    id: 7,
+    title: "Medical Stethoscope",
+    price: 600,
+    type: "sell",
+    image: "https://i.imgur.com/7FqRZzK.jpg",
+    fromBackend: false
+  },
+  {
+    id: 8,
+    title: "MBBS Anatomy Notes",
+    price: 300,
+    type: "rent",
+    image: "https://i.imgur.com/5f7oT5p.jpg",
+    fromBackend: false
   }
 ];
 
+/* =================================================
+   RENDER PRODUCTS
+================================================= */
 function renderProducts(products) {
   const container = document.getElementById("listings");
   container.innerHTML = "";
 
+  if (!products || products.length === 0) {
+    container.innerHTML = "<p>No items found near you.</p>";
+    return;
+  }
+
   products.forEach(p => {
-    const imgSrc = p.fromBackend
-      ? `${API_URL}${p.image}`   // backend uploads
-      : p.image;                // demo https images
+    const imgSrc = p.fromBackend ? `${API_URL}${p.image}` : p.image;
 
     container.innerHTML += `
       <div class="product-card" onclick="openProduct(${p.id})">
@@ -64,96 +100,133 @@ function renderProducts(products) {
   });
 }
 
+/* =================================================
+   LOCATION – GET USER LOCATION (5 KM)
+================================================= */
+function getUserLocation() {
+  if (!navigator.geolocation) {
+    loadWithoutLocation();
+    return;
+  }
 
-// TRY FETCHING REAL PRODUCTS
-fetch(`${API_URL}/api/listings`)
-  .then(res => res.json())
-  .then(data => {
-    if (!data || data.length === 0) {
-      // backend lo data ledu → demo products
-      allProducts = demoProducts.slice();          // copy
-      renderProducts(allProducts);
-    } else {
-      allProducts = data.map(p => ({
-        id: p.id,
-        title: p.title,
-        price: p.price,
-        type: p.type,
-        image: JSON.parse(p.images)[0],
-        fromBackend: true                           // 🔥 important
-      }));
-      renderProducts(allProducts);
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      userLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      loadProductsNearMe();
+    },
+    () => {
+      loadWithoutLocation();
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 8000,
+      maximumAge: 0
     }
-  })
-  .catch(() => {
-    allProducts = demoProducts.slice();
-    renderProducts(allProducts);
-  });
-
-
-
-function openProduct(id) {
-  window.location.href = `product.html?id=${id}`;
+  );
 }
 
+/* =================================================
+   LOAD PRODUCTS NEAR USER (BACKEND)
+================================================= */
+function loadProductsNearMe() {
+  fetch(
+    `${API_URL}/api/listings?lat=${userLocation.lat}&lng=${userLocation.lng}&radius=5`
+  )
+    .then(res => res.json())
+    .then(data => {
+      if (!data || data.length === 0) {
+        allProducts = demoProducts.slice();
+      } else {
+        allProducts = data.map(p => ({
+          id: p.id,
+          title: p.title,
+          price: p.price,
+          type: p.type,
+          image: JSON.parse(p.images)[0],
+          fromBackend: true
+        }));
+      }
+      renderProducts(allProducts);
+    })
+    .catch(() => {
+      loadWithoutLocation();
+    });
+}
 
-// 🔥 FILTERS LOGIC (app.js last lo paste)
-document.getElementById('priceSlider').addEventListener('input', function() {
-  document.getElementById('priceValue').textContent = `₹${this.value}`;
-});
+/* =================================================
+   FALLBACK – NO LOCATION
+================================================= */
+function loadWithoutLocation() {
+  fetch(`${API_URL}/api/listings`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data || data.length === 0) {
+        allProducts = demoProducts.slice();
+      } else {
+        allProducts = data.map(p => ({
+          id: p.id,
+          title: p.title,
+          price: p.price,
+          type: p.type,
+          image: JSON.parse(p.images)[0],
+          fromBackend: true
+        }));
+      }
+      renderProducts(allProducts);
+    })
+    .catch(() => {
+      allProducts = demoProducts.slice();
+      renderProducts(allProducts);
+    });
+}
 
-// 🔥 FILTER HELPERS
-const priceSlider = document.getElementById('priceSlider');
-const priceValue = document.getElementById('priceValue');
-const searchInput = document.getElementById('searchInput');
+/* =================================================
+   FILTERS & SEARCH
+================================================= */
+const priceSlider = document.getElementById("priceSlider");
+const priceValue = document.getElementById("priceValue");
+const searchInput = document.getElementById("searchInput");
 
 if (searchInput) {
-  searchInput.addEventListener('input', function () {
-    if (!Array.isArray(allProducts) || allProducts.length === 0) return;
-
+  searchInput.addEventListener("input", function () {
     const text = this.value.toLowerCase();
-
-    const filtered = allProducts.filter(p => {
-      const title = (p.title || "").toLowerCase();
-      const subject = (p.subject || "").toLowerCase();
-      return !text || title.includes(text) || subject.includes(text);
-    });
-
-    renderProducts(filtered);
-  });
-}
-
-if (priceSlider && priceValue) {
-  priceSlider.addEventListener('input', function () {
-    priceValue.textContent = `₹${this.value}`;
+    renderProducts(
+      allProducts.filter(p =>
+        p.title.toLowerCase().includes(text)
+      )
+    );
   });
 }
 
 function applyFilters() {
-  if (!Array.isArray(allProducts) || allProducts.length === 0) {
-    alert("No products loaded yet");
-    return;
-  }
-
-  const priceMax = Number(priceSlider.value || 0);
-
-  const filtered = allProducts.filter(p => Number(p.price) <= priceMax);
-
-  renderProducts(filtered);
+  const max = Number(priceSlider.value);
+  renderProducts(allProducts.filter(p => p.price <= max));
 }
-
-
-
 
 function clearFilters() {
-  if (searchInput) searchInput.value = '';
-
+  if (searchInput) searchInput.value = "";
   if (priceSlider && priceValue) {
     priceSlider.value = 2000;
-    priceValue.textContent = '₹2000';
+    priceValue.textContent = "₹2000";
   }
-
-  if (Array.isArray(allProducts) && allProducts.length > 0) {
-    renderProducts(allProducts);
-  }
+  renderProducts(allProducts);
 }
+
+function toggleFilters() {
+  document.getElementById("filterPanel").classList.toggle("hidden");
+}
+
+/* =================================================
+   NAVIGATION
+================================================= */
+function openProduct(id) {
+  window.location.href = `product.html?id=${id}`;
+}
+
+/* =================================================
+   START APP
+================================================= */
+getUserLocation();
